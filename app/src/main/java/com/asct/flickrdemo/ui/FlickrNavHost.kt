@@ -12,7 +12,13 @@ import com.asct.flickrdemo.ui.photosearch.PhotoSearchScreen
 @Composable
 fun FlickrNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "photoSearch") {
-        composable("photoSearch") { PhotoSearchScreen() }
+        composable("photoSearch") {
+            PhotoSearchScreen(
+                onPhotoClicked = {
+                    navController.navigate("photoDetail/$it")
+                }
+            )
+        }
         composable(
             "photoDetail/{photoId}",
             arguments = listOf(navArgument("photoId") { type = NavType.StringType })
