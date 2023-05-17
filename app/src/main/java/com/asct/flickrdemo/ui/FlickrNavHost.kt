@@ -14,9 +14,7 @@ fun FlickrNavHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = "photoSearch") {
         composable("photoSearch") {
             PhotoSearchScreen(
-                onPhotoClicked = {
-                    navController.navigate("photoDetail/$it")
-                }
+                onPhotoClicked = { navController.navigate("photoDetail/$it") }
             )
         }
         composable(
@@ -24,7 +22,8 @@ fun FlickrNavHost(navController: NavHostController) {
             arguments = listOf(navArgument("photoId") { type = NavType.StringType })
         ) {
             PhotoDetailScreen(
-                photoId = it.arguments?.getString("photoId").orEmpty()
+                photoId = it.arguments?.getString("photoId").orEmpty(),
+                onBack = { navController.popBackStack() }
             )
         }
     }

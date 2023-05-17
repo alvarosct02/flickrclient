@@ -3,6 +3,7 @@ package com.asct.flickrdemo.di
 import com.asct.flickrdemo.BuildConfig
 import com.asct.flickrdemo.data.FlickrPhotoRepository
 import com.asct.flickrdemo.data.PhotoRepository
+import com.asct.flickrdemo.ui.photodetail.PhotoDetailViewModel
 import com.asct.flickrdemo.ui.photosearch.PhotoSearchViewModel
 import com.googlecode.flickrjandroid.Flickr
 import com.googlecode.flickrjandroid.photos.PhotosInterface
@@ -21,4 +22,5 @@ val repositoryModule = module {
 
 val viewModelModule = module {
     viewModel { PhotoSearchViewModel(get()) }
+    viewModel { PhotoDetailViewModel(get()) }
 }
