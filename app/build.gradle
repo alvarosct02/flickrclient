@@ -67,4 +67,9 @@ dependencies {
 //    Flickr
     implementation "com.googlecode.flickrj-android:flickrj-android:2.1.0"
     implementation files('libs/slf4j-android-1.6.1-RC1.jar')
+
+//    Koin
+    def koin_version = "3.2.0"
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
 }

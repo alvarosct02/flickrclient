@@ -11,14 +11,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.asct.flickrdemo.data.PhotoRepository
 import com.asct.flickrdemo.ui.theme.FlickrDemoTheme
-import com.googlecode.flickrjandroid.Flickr
-import com.googlecode.flickrjandroid.photos.SearchParameters
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 
 class MainActivity : ComponentActivity() {
+
+    private val photoRepository: PhotoRepository by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -35,22 +38,22 @@ class MainActivity : ComponentActivity() {
 
         testFlickr("ocean")
     }
-}
 
-fun testFlickr(keyword: String) {
-    GlobalScope.launch(Dispatchers.IO) {
-        try {
-            val client = Flickr(BuildConfig.FLICKR_API_KEY, BuildConfig.FLICKR_API_SECRET)
-
-            val response = client.photosInterface.search(SearchParameters().also {
-                it.text = keyword
-            }, 50, 1)
-            response.forEach {
-                Log.e("ASCT", it.thumbnailUrl)
+    private fun testFlickr(keyword: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response = photoRepository.getPhotosByTag(
+                    tags = keyword,
+                    page = 1,
+                    perPage = 50
+                )
+                response.forEach {
+                    Log.e("ASCT", it.toString())
+                }
+            } catch (e: Exception) {
+                Log.e("ASCT", e.localizedMessage)
+                e.printStackTrace()
             }
-        } catch (e: Exception) {
-            Log.e("ASCT", e.localizedMessage)
-            e.printStackTrace()
         }
     }
 }
