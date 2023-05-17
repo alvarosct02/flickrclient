@@ -7,11 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.asct.flickrdemo.data.PhotoRepository
+import com.asct.flickrdemo.ui.FlickrNavHost
 import com.asct.flickrdemo.ui.theme.FlickrDemoTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -25,48 +24,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val navController = rememberNavController()
+
             FlickrDemoTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    FlickrNavHost(navController)
                 }
             }
         }
-
-        testFlickr("ocean")
-    }
-
-    private fun testFlickr(keyword: String) {
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val response = photoRepository.getPhotosByTag(
-                    tags = keyword,
-                    page = 1,
-                    perPage = 50
-                )
-                response.forEach {
-                    Log.e("ASCT", it.toString())
-                }
-            } catch (e: Exception) {
-                Log.e("ASCT", e.localizedMessage)
-                e.printStackTrace()
-            }
-        }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FlickrDemoTheme {
-        Greeting("Android")
     }
 }
