@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.asct.flickrdemo.domain.PhotoDetail
+import com.asct.flickrdemo.ui.components.AppBar
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -47,7 +48,9 @@ fun PhotoSearchScreen(
     val photosCount = uiState.photos.size
     val error = uiState.error
 
-    Scaffold {
+    Scaffold(
+        topBar = { AppBar() }
+    ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             TextField(
                 value = keyword,
